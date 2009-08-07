@@ -12,8 +12,8 @@ end
 # 2 chef clients, bootstrap & runit, for the dpkg lock.) So, as a simple
 # not-too-painful workaround, I'll just need to manually validate the node's
 # registration in the web ui after bootstrapping.
-system 'mount /media/cdrom0'
-system 'chef-solo --config /cdrom/bundle/solo.rb --json-attributes /cdrom/bundle/solo.json'
+raise unless system 'mount /media/cdrom0'
+raise unless system 'chef-solo --config /cdrom/bundle/solo.rb --json-attributes /cdrom/bundle/solo.json'
 
 puts
 puts 'Bootstrapping done.'
