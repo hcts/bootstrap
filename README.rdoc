@@ -1,0 +1,29 @@
+= Chef Installer ISO
+
+Builds an ISO image you can use to install Ubuntu 9.04 and set up a chef[http://wiki.opscode.com/display/chef] client.
+
+== Prerequisites
+
+This project uses captain[http://github.com/matthewtodd/captain], a more generic tool I wrote for building an Ubuntu installer CD with a custom set of packages.
+
+So, you'll first need to
+
+ gem sources --add http://gems.github.com
+ gem install matthewtodd-captain
+
+== Usage
+
+Once you've got that, just stand in this directory and run
+
+ captain
+
+Then, burn the iso onto a disk and use it to bootstrap your system.
+
+Once your system's up and running, you can bootstrap chef like so:
+
+ mount /media/cdrom0
+ SERVER=https://your-chef-server OPENID_SERVER=https://your-chef-openid-server chef-client --config /cdrom/bundle/client.rb --token YOUR_CHEF_TOKEN
+
+== Customize
+
+Check out config/captain.rb if you'd like to include additional packages on the CD. Or, you may like to just start your own project that uses captain -- all you need is a config/captain.rb, and you're good to go.
