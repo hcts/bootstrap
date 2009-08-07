@@ -14,3 +14,8 @@ end
 # registration in the web ui after bootstrapping.
 system 'mount /media/cdrom0'
 system 'chef-solo --config /cdrom/bundle/solo.rb --json-attributes /cdrom/bundle/solo.json'
+
+puts
+puts 'Bootstrapping done.'
+puts "Now, let's tail the real chef-client log:"
+exec 'tail -f /etc/sv/chef-client/log/main/current'
