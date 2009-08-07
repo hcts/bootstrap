@@ -3,7 +3,7 @@
     gem name
   rescue Gem::LoadError
     abort "Please `gem install #{name} --source http://gems.github.com`"
-  end  
+  end
 end
 
 require 'captain'
@@ -34,7 +34,7 @@ end
 # =============================================================================
 ISO_FILENAME = File.basename(Captain::Application.new.send(:iso_image_path))
 
-file ISO_FILENAME => FileList['bundle/*.rb', 'bundle/gems/chef-0.7.4.gem', 'bundle/gems/chef-deploy-0.2.3.gem', 'bundle/gems/mysql-2.7.gem', 'bundle/gems/passenger-2.2.4.gem', 'bundle/gems/rails-2.3.3.gem', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
+file ISO_FILENAME => FileList['bundle/**/*', 'bundle/gems/chef-0.7.4.gem', 'bundle/gems/chef-deploy-0.2.3.gem', 'bundle/gems/mysql-2.7.gem', 'bundle/gems/passenger-2.2.4.gem', 'bundle/gems/rails-2.3.3.gem', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
   sh 'captain'
 end
 
