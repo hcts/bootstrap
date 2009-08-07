@@ -1,11 +1,17 @@
+['matthewtodd-captain', 'matthewtodd-rubygems_commands'].each do |gem_name|
+  begin
+    gem name
+  rescue Gem::LoadError
+    abort "Please `gem install #{name} --source http://gems.github.com`"
+  end  
+end
+
 require 'captain'
 require 'erb'
 
-ISO_FILENAME  = File.basename(Captain::Application.new.send(:iso_image_path))
-VMWARE_PATH   = 'virtual_machine.vmwarevm'
-VMWARE_CONFIG = File.join(VMWARE_PATH, 'virtual_machine.vmx')
-VMWARE_DISK   = File.join(VMWARE_PATH, 'virtual_machine.vmdk')
-
+# =============================================================================
+# = Packages bundled in the ISO image                                         =
+# =============================================================================
 directory 'bundle/gems'
 
 rule '.gem' => 'bundle/gems' do |task|
@@ -18,9 +24,29 @@ file 'bundle/rubygems-1.3.5.tgz' do
   sh 'cd bundle; curl -L -O http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz'
 end
 
-file ISO_FILENAME => FileList['config/captain.rb', 'bundle/*.rb', 'bundle/gems/chef-0.7.4.gem', 'bundle/gems/chef-deploy-0.2.3.gem', 'bundle/gems/mysql-2.7.gem', 'bundle/gems/passenger-2.2.4.gem', 'bundle/gems/rails-2.3.3.gem', 'bundle/rubygems-1.3.5.tgz'] do
+desc 'Remove ignored files'
+task :clean do
+  sh 'git clean -fdX'
+end
+
+# =============================================================================
+# = The ISO image itself                                                      =
+# =============================================================================
+ISO_FILENAME = File.basename(Captain::Application.new.send(:iso_image_path))
+
+file ISO_FILENAME => FileList['bundle/*.rb', 'bundle/gems/chef-0.7.4.gem', 'bundle/gems/chef-deploy-0.2.3.gem', 'bundle/gems/mysql-2.7.gem', 'bundle/gems/passenger-2.2.4.gem', 'bundle/gems/rails-2.3.3.gem', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
   sh 'captain'
 end
+
+desc 'Build image'
+task :build => ISO_FILENAME
+
+# =============================================================================
+# = VMware virtual machine to boot from the ISO image                         =
+# =============================================================================
+VMWARE_PATH   = 'virtual_machine.vmwarevm'
+VMWARE_CONFIG = File.join(VMWARE_PATH, 'virtual_machine.vmx')
+VMWARE_DISK   = File.join(VMWARE_PATH, 'virtual_machine.vmdk')
 
 directory VMWARE_PATH
 
@@ -32,14 +58,6 @@ end
 
 file VMWARE_DISK => VMWARE_PATH do
   sh "vmware-vdiskmanager -c -s 2GB -a lsilogic -t 0 #{VMWARE_DISK}"
-end
-
-desc 'Build image'
-task :build => ISO_FILENAME
-
-desc 'Remove ignored files'
-task :clean do
-  sh 'git clean -fdX'
 end
 
 desc 'Boot image in VMware'
