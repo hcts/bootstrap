@@ -1,4 +1,4 @@
-['matthewtodd-captain', 'matthewtodd-rubygems_commands'].each do |gem_name|
+['matthewtodd-captain', 'matthewtodd-rubygems_commands'].each do |name|
   begin
     gem name
   rescue Gem::LoadError

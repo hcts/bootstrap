@@ -9,4 +9,5 @@ ENV['TOKEN'] ||= 'foo'
 
 log_level = ARGV.shift || 'info'
 
-exec "chef-client --config /cdrom/bundle/client.rb --log_level #{log_level} --token #{ENV['TOKEN']} 2>&1 | tee bootstrap.log"
+system 'mount /media/cdrom0'
+system "chef-client --config /cdrom/bundle/client.rb --log_level #{log_level} --token #{ENV['TOKEN']} 2>&1 | tee bootstrap.log"

@@ -33,5 +33,6 @@ post_install_commands [
   # bundle directory in the ISO image.
   "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-0.7.4.gem        --local --no-rdoc --no-ri'",
-  "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'"
+  "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'",
+  "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
 ]
