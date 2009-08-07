@@ -18,4 +18,5 @@ raise unless system 'chef-solo --config /cdrom/bundle/solo.rb --json-attributes 
 puts
 puts 'Bootstrapping done.'
 puts "Now, let's tail the real chef-client log:"
+sleep 1 until File.exists?('/etc/sv/chef-client/log/main/current')
 exec 'tail -f /etc/sv/chef-client/log/main/current'
