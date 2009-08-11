@@ -13,6 +13,7 @@ include_packages [
   'fetchmail',
   'git-core', 'gitk', 'git-svn', 'git-email',
   'libmysqlclient15-dev', 'mysql-client',
+  'mailutils',
   'postfix-mysql',
   'runit'
 ]
