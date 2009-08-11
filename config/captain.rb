@@ -8,12 +8,13 @@ tasks         ['minimal', 'standard', 'server', 'openssh-server', 'lamp-server',
 include_packages [
   # These guys are necessary to make it through the installation process.
   'linux-server', 'language-support-en', 'grub',
-  # The chef::client recipe configures chef-client to run under runit.
-  'runit',
   # And we want these:
+  'apache2-prefork-dev',
+  'fetchmail',
   'git-core', 'gitk', 'git-svn', 'git-email',
   'libmysqlclient15-dev', 'mysql-client',
-  'apache2-prefork-dev'
+  'postfix-mysql',
+  'runit'
 ]
 
 # These packages will be included in the ISO image *and* installed at the end
@@ -29,12 +30,11 @@ install_packages [
 ]
 
 post_install_commands [
-  # Here we take advantage of the fact that captain automatically includes the
-  # bundle directory in the ISO image.
+  # Install Rubygems from source:
   "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
+  # Install Chef gem, and chef-deploy:
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-0.7.4.gem        --local --no-rdoc --no-ri'",
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'",
-
-  "in-target sh -c '/usr/sbin/update-rc.d -f apparmor remove'",
+  # Copy over a handy Bootstrap script:
   "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
 ]
