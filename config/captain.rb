@@ -1,5 +1,5 @@
 # This tag will be appended to the iso filename, to help me remember.
-tag 'chef-0.7.4'
+tag 'chef-0.7.8'
 
 repositories  ['http://us.archive.ubuntu.com/ubuntu jaunty main restricted universe']
 tasks         ['minimal', 'standard', 'server', 'openssh-server', 'lamp-server', 'mail-server', 'samba-server']
@@ -34,7 +34,7 @@ post_install_commands [
   # Install Rubygems from source:
   "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
   # Install Chef gem, and chef-deploy:
-  "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-0.7.4.gem        --local --no-rdoc --no-ri'",
+  "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-0.7.8.gem        --local --no-rdoc --no-ri'",
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'",
   # Copy over a handy Bootstrap script:
   "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
