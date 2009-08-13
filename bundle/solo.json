@@ -1,1 +1,1 @@
-{ "chef": { "client_interval": 60 }, "recipes": "chef::client" }
+{ "chef": { "client_interval": 60, "client_version": "0.7.8" }, "recipes": "chef::client" }
