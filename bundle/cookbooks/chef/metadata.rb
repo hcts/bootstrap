@@ -21,7 +21,7 @@ attribute "chef/run_path",
 attribute "chef/client_version",
   :display_name => "Chef Client Version",
   :description => "Set the version of the client gem to install",
-  :default => "0.7.4"
+  :default => "0.7.8"
 
 attribute "chef/client_interval",
   :display_name => "Chef Client Interval ",
