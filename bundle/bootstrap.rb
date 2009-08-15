@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
 unless ENV.has_key?('SERVER')
-  ENV['SERVER']        = 'http://10.0.1.2:4000'
-  ENV['OPENID_SERVER'] = 'http://10.0.1.2:4001'
+  ENV['SERVER']        = 'http://192.168.42.1:4000'
+  ENV['OPENID_SERVER'] = 'http://192.168.42.1:4001'
 end
 
 # I decided, on-balance, not to use a validation token here, since I'd like to
