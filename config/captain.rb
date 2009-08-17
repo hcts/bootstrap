@@ -36,6 +36,8 @@ post_install_commands [
   # Install Chef gem, and chef-deploy:
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-0.7.8.gem        --local --no-rdoc --no-ri'",
   "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'",
+  # Copy over gems directory:
+  "in-target sh -c 'cp -r /cdrom/bundle/gems /root'",
   # Copy over a handy Bootstrap script:
   "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
 ]
