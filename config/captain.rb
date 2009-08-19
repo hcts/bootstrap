@@ -14,7 +14,7 @@ include_packages [
   'git-core', 'gitk', 'git-svn', 'git-email',
   'libmysqlclient15-dev', 'mysql-client',
   'mailutils',
-  'mgetty',
+  'mgetty', 'mgetty-docs',
   'postfix-mysql',
   'runit'
 ]
