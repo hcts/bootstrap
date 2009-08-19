@@ -16,6 +16,7 @@ include_packages [
   'mailutils',
   'mgetty', 'mgetty-docs',
   'postfix-mysql',
+  'rsnapshot',
   'runit'
 ]
 
