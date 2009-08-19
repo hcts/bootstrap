@@ -16,8 +16,7 @@ include_packages [
   'mailutils',
   'mgetty', 'mgetty-docs',
   'postfix-mysql',
-  'rsnapshot',
-  'runit'
+  'rsnapshot'
 ]
 
 # These packages will be included in the ISO image *and* installed at the end
