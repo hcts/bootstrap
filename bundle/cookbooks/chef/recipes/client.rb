@@ -6,6 +6,13 @@
   end
 end
 
+file '/var/log/chef/client.log' do
+  owner 'root'
+  group 'root'
+  mode 0644
+  action :touch
+end
+
 template '/etc/chef/client.rb' do
   source 'client.rb.erb'
   owner 'root'

@@ -16,7 +16,9 @@ include_packages [
   'mailutils',
   'mgetty', 'mgetty-docs',
   'postfix-mysql',
-  'rsnapshot'
+  'rsnapshot',
+  'vnc4server',
+  'xubuntu-desktop'
 ]
 
 # These packages will be included in the ISO image *and* installed at the end
@@ -26,8 +28,8 @@ install_packages [
   # http://wiki.opscode.com/pages/viewpage.action?pageId=2457665 for
   # bootstrapping a chef client. I've removed the 1.8 version suffixes so
   # we'll depend on the default provided packages. I've also excluded wget
-  # (since we install rubygems as a package, below) and ssl-cert (since we
-  # won't need to generate any certificates).
+  # (since we install rubygems from a local tarball, below) and ssl-cert
+  # (since we won't need to generate any certificates).
   'ruby', 'ruby-dev', 'libopenssl-ruby', 'rdoc', 'ri', 'irb', 'build-essential'
 ]
 
