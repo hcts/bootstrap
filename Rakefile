@@ -57,7 +57,7 @@ file VMWARE_CONFIG => [VMWARE_PATH, 'config/captain.vmx.erb'] do
 end
 
 file VMWARE_DISK => VMWARE_PATH do
-  sh "vmware-vdiskmanager -c -s 2GB -a lsilogic -t 0 #{VMWARE_DISK}"
+  sh "vmware-vdiskmanager -c -s 20GB -a lsilogic -t 0 #{VMWARE_DISK}"
 end
 
 desc 'Boot image in VMware'
