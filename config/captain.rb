@@ -2,7 +2,7 @@
 tag 'chef-0.7.8'
 
 repositories  ['http://us.archive.ubuntu.com/ubuntu jaunty main restricted universe']
-tasks         ['minimal', 'standard', 'server', 'openssh-server', 'lamp-server', 'mail-server', 'samba-server']
+tasks         ['minimal', 'standard', 'server', 'openssh-server', 'lamp-server', 'mail-server', 'samba-server', 'xubuntu-desktop']
 
 # These packages (and their dependencies) will be included in the ISO image.
 include_packages [
@@ -12,13 +12,14 @@ include_packages [
   'apache2-prefork-dev',
   'fetchmail',
   'git-core', 'gitk', 'git-svn', 'git-email',
+  'inetutils-inetd',
   'libmysqlclient15-dev', 'mysql-client',
   'mailutils',
-  'mgetty', 'mgetty-docs',
+  'mgetty',
   'postfix-mysql',
   'rsnapshot',
   'vnc4server',
-  'xubuntu-desktop'
+  'xinetd'
 ]
 
 # These packages will be included in the ISO image *and* installed at the end
