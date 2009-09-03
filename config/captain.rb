@@ -33,6 +33,8 @@ include_packages [
 # These packages will be included in the ISO image *and* installed at the end
 # of the installation process.
 install_packages [
+  # I'll always want ssh access:
+  'openssh-server',
   # Chef is awesome:
   'chef', 'ohai',
   # These are nice when we're working with ruby:
