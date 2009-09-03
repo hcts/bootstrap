@@ -48,15 +48,15 @@ task :build => ISO_FILENAME
 # =============================================================================
 # = VMware virtual machine to boot from the ISO image                         =
 # =============================================================================
-VMWARE_PATH   = 'virtual_machine.vmwarevm'
-VMWARE_CONFIG = File.join(VMWARE_PATH, 'virtual_machine.vmx')
-VMWARE_DISK   = File.join(VMWARE_PATH, 'virtual_machine.vmdk')
+VMWARE_PATH   = 'vm.vmwarevm'
+VMWARE_CONFIG = File.join(VMWARE_PATH, 'vm.vmx')
+VMWARE_DISK   = File.join(VMWARE_PATH, 'vm.vmdk')
 
 directory VMWARE_PATH
 
-file VMWARE_CONFIG => [VMWARE_PATH, 'config/captain.vmx.erb'] do
+file VMWARE_CONFIG => [VMWARE_PATH, 'config/vm.vmx.erb'] do
   File.open(VMWARE_CONFIG, 'w') do |config|
-    config.write(ERB.new(File.read('config/captain.vmx.erb')).result)
+    config.write(ERB.new(File.read('config/vm.vmx.erb')).result)
   end
 end
 
