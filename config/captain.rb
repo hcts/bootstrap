@@ -9,14 +9,17 @@ include_packages [
   # These guys are necessary to make it through the installation process.
   'linux-server', 'language-support-en', 'grub',
   # And we want these:
+  'alpine',
   'apache2-prefork-dev',
   'fetchmail',
   'git-core', 'gitk', 'git-svn', 'git-email',
   'libmysqlclient15-dev', 'mysql-client',
   'mailutils',
   'mgetty',
+  'mrtg',
   'postfix-mysql',
   'rsnapshot',
+  'squid',
   'twm',
   'vnc4server',
   'xinetd',
