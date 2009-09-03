@@ -12,12 +12,16 @@ require 'erb'
 # =============================================================================
 # = Packages bundled in the ISO image                                         =
 # =============================================================================
-directory 'bundle/gems'
+directory 'bundle/rubygems/gems'
 
-rule '.gem' => 'bundle/gems' do |task|
+rule '.gem' => 'bundle/rubygems/gems' do |task|
   # FIXME gem export should honor the version number
   gem_name = File.basename(task.name, '.gem').split('-').slice(0..-2).join('-')
-  sh "cd bundle/gems; gem export #{gem_name}"
+  sh "cd bundle/rubygems/gems; gem export #{gem_name}"
+end
+
+file 'bundle/rubygems/latest_specs.4.8' => ['chef-deploy-0.2.3.gem', 'haml-2.0.9.gem', 'mysql-2.7.gem', 'passenger-2.2.4.gem', 'rails-2.3.3.gem'].map { |name| "bundle/rubygems/gems/#{name}" } do
+  sh 'gem generate_index --directory bundle/rubygems --no-legacy'
 end
 
 file 'bundle/rubygems-1.3.5.tgz' do
@@ -34,7 +38,7 @@ end
 # =============================================================================
 ISO_FILENAME = File.basename(Captain::Application.new.send(:iso_image_path))
 
-file ISO_FILENAME => FileList['bundle/**/*', 'bundle/gems/chef-deploy-0.2.3.gem', 'bundle/gems/haml-2.0.9.gem', 'bundle/gems/mysql-2.7.gem', 'bundle/gems/passenger-2.2.4.gem', 'bundle/gems/rails-2.3.3.gem', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
+file ISO_FILENAME => FileList['bundle/**/*', 'bundle/rubygems/latest_specs.4.8', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
   sh 'captain'
 end
 

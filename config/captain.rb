@@ -44,10 +44,10 @@ install_packages [
 post_install_commands [
   # Install Rubygems from source:
   "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
-  # Install the chef-deploy gem:
-  "in-target sh -c 'cd /cdrom/bundle/gems; gem install chef-deploy-0.2.3.gem --local --no-rdoc --no-ri'",
   # Copy over gems directory:
-  "in-target sh -c 'cp -r /cdrom/bundle/gems /root'",
+  "in-target sh -c 'cp -r /cdrom/bundle/rubygems /usr/local; /bin/echo -e \"---\\n:sources: \\n- file:/usr/local/rubygems/\\n\" > /etc/gemrc'",
+  # Install the chef-deploy gem:
+  "in-target sh -c 'gem install chef-deploy --no-rdoc --no-ri'",
   # Copy over a handy Bootstrap script:
   "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
 ]

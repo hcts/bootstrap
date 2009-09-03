@@ -1,4 +1,4 @@
-*.gem
+bundle/rubygems
 *.iso
 *.tgz
 *.vmwarevm
