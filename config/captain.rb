@@ -1,11 +1,19 @@
 # This tag will be appended to the iso filename.
-tag 'chef-0.7.10'
+tag 'chef-0.7.8'
 
 repositories [
   'http://us.archive.ubuntu.com/ubuntu jaunty main restricted universe'
 ]
 
-tasks         ['minimal', 'standard', 'server', 'openssh-server', 'lamp-server', 'mail-server', 'samba-server']
+tasks [
+  'minimal',
+  'standard',
+  'server',
+  'openssh-server',
+  'lamp-server',
+  'mail-server',
+  'samba-server'
+]
 
 # These packages (and their dependencies) will be included in the ISO image.
 include_packages [
@@ -32,24 +40,26 @@ include_packages [
 # These packages will be included in the ISO image *and* installed at the end
 # of the installation process.
 install_packages [
-  # I'll always want ssh access:
   'openssh-server',
-  # And ruby, of course:
-  'ruby', 'libopenssl-ruby',
-  # These are nice when we're working with ruby:
-  'rdoc', 'ri', 'irb',
-  # These are nice if we install any gems with C extensions:
-  'ruby-dev', 'build-essential'
+  'ruby', 'libopenssl-ruby', 'rdoc', 'ri', 'irb', 'ruby-dev', 'build-essential',
+  'git-core', 'vim'
 ]
 
 post_install_commands [
   # Install Rubygems from source:
-  "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
+  "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb'",
+  "in-target sh -c 'ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
   # Copy over gems directory:
-  "in-target sh -c 'cp -r /cdrom/bundle/rubygems /srv; /bin/echo -e \"---\\n:sources: \\n- file:/srv/rubygems/\\n\" > /etc/gemrc'",
+  "in-target sh -c 'cp -r /cdrom/bundle/rubygems /srv'",
+  "in-target sh -c '/bin/echo -e \"---\\n:sources: \\n- file:/srv/rubygems/\\n\" > /etc/gemrc'",
   # Install chef and chef-deploy gems:
   "in-target sh -c 'gem install chef        --no-rdoc --no-ri'",
   "in-target sh -c 'gem install chef-deploy --no-rdoc --no-ri'",
-  # Copy over a handy Bootstrap script:
-  "in-target sh -c 'cp /cdrom/bundle/bootstrap.rb /root/bootstrap'"
+  # Configure chef:
+  "in-target sh -c 'mkdir /etc/chef'",
+  "in-target sh -c 'mkdir /var/log/chef; touch /var/log/chef/solo.log'",
+  "in-target sh -c 'cp /cdrom/bundle/chef/attributes.json /etc/chef/attributes.json; chmod 600 /etc/chef/attributes.json'",
+  "in-target sh -c 'cp /cdrom/bundle/chef/solo.rb         /etc/chef/solo.rb;         chmod 644 /etc/chef/solo.rb'",
+  "in-target sh -c 'cp /cdrom/bundle/chef/crontab         /etc/cron.d/chef;          chmod 644 /etc/cron.d/chef'",
+  "in-target sh -c 'cp /cdrom/bundle/chef/logrotate       /etc/logrotate.d/chef;     chmod 644 /etc/logrotate.d/chef'"
 ]
