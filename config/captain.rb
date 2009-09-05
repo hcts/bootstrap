@@ -46,7 +46,7 @@ post_install_commands [
   # Install Rubygems from source:
   "in-target sh -c 'cd /tmp; tar zxf /cdrom/bundle/rubygems-1.3.5.tgz; cd rubygems-1.3.5; ruby setup.rb; ln -sfv /usr/bin/gem1.8 /usr/bin/gem'",
   # Copy over gems directory:
-  "in-target sh -c 'cp -r /cdrom/bundle/rubygems /usr/local; /bin/echo -e \"---\\n:sources: \\n- file:/usr/local/rubygems/\\n\" > /etc/gemrc'",
+  "in-target sh -c 'cp -r /cdrom/bundle/rubygems /srv; /bin/echo -e \"---\\n:sources: \\n- file:/srv/rubygems/\\n\" > /etc/gemrc'",
   # Install chef and chef-deploy gems:
   "in-target sh -c 'gem install chef        --no-rdoc --no-ri'",
   "in-target sh -c 'gem install chef-deploy --no-rdoc --no-ri'",
