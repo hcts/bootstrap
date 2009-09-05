@@ -1,4 +1,4 @@
 #
 # Run chef-solo every hour. (Adjust to your liking.)
 #
-#0 *    * * *    root    /usr/bin/chef-solo
+#0 *    * * *    root    /usr/bin/chef-solo --logfile /var/log/chef/solo.log

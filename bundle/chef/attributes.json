@@ -1,8 +1,18 @@
 {
   "recipes": [
+    "openssh",
+    "rsnapshot",
+    "packages",
+    "ruby",
+    "apache2",
+    "passenger_apache2::mod_rails",
+    "mysql::server",
+    "rails",
+    "git"
   ],
 
-  "foo": {
-    "bar": "baz"
-  }
+  "apache":    { "listen_ports": [80] },
+  "mysql":     { "bind_address": "127.0.0.1" },
+  "passenger": { "version": "2.2.4" },
+  "rails":     { "version": "2.3.4" }
 }
