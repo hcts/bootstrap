@@ -20,7 +20,7 @@ rule '.gem' => 'bundle/rubygems/gems' do |task|
   sh "cd bundle/rubygems/gems; gem export #{gem_name}"
 end
 
-file 'bundle/rubygems/latest_specs.4.8' => ['chef-deploy-0.2.3.gem', 'haml-2.0.9.gem', 'mysql-2.7.gem', 'passenger-2.2.4.gem', 'rails-2.3.3.gem'].map { |name| "bundle/rubygems/gems/#{name}" } do
+file 'bundle/rubygems/latest_specs.4.8' => ['chef-0.7.10.gem', 'chef-deploy-0.2.3.gem', 'haml-2.0.9.gem', 'mysql-2.7.gem', 'passenger-2.2.4.gem', 'rails-2.3.3.gem'].map { |name| "bundle/rubygems/gems/#{name}" } do
   sh 'gem generate_index --directory bundle/rubygems --no-legacy'
 end
 
