@@ -31,10 +31,13 @@ include_packages [
   'postfix-mysql',
   'rsnapshot',
   'squid',
-  'twm',
   'vnc4server',
-  'xinetd',
-  'xterm'
+  'xfce4-cpugraph-plugin',
+  'xfce4-netload-plugin',
+  'xfce4-systemload-plugin',
+  'xfce4-terminal',
+  'xrdp',
+  'xubuntu-desktop'
 ]
 
 # These packages will be included in the ISO image *and* installed at the end
