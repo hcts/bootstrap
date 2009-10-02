@@ -24,6 +24,7 @@ include_packages [
   'apache2-prefork-dev',
   'fetchmail',
   'git-core', 'gitk', 'git-svn', 'git-email',
+  'libapache2-mod-auth-pam',
   'libmysqlclient15-dev', 'mysql-client',
   'mailutils',
   'mgetty',
