@@ -30,6 +30,7 @@ include_packages [
   'mgetty',
   'mrtg',
   'postfix-mysql',
+  'rrdtool',
   'rsnapshot',
   'squid',
   'vnc4server',
