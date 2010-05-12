@@ -7,8 +7,8 @@ system 'gem install chef        --no-rdoc --no-ri'
 system 'gem install chef-deploy --no-rdoc --no-ri'
 
 cd '/cdrom/bundle/chef' do
-  mkdir '/etc/chef'
-  mkdir '/var/log/chef'
+  mkdir_p '/etc/chef'
+  mkdir_p '/var/log/chef'
 
   install 'solo.rb',   '/etc/chef/solo.rb',     :mode => 0644
   install 'crontab',   '/etc/cron.d/chef',      :mode => 0644

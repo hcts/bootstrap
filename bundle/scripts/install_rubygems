@@ -9,7 +9,7 @@ include FileUtils
 Dir.mktmpdir do |temp|
   cd temp do
     system 'tar xzf /cdrom/bundle/rubygems-1.3.5.tgz'
-    cd 'rubygems-1.3.5' { system 'ruby setup.rb' }
+    cd('rubygems-1.3.5') { system 'ruby setup.rb' }
   end
 end
 
