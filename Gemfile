@@ -3,7 +3,8 @@ source 'http://gems.opscode.com/'    # chef (old version)
 source 'http://gems.engineyard.com/' # chef-deploy (now in chef)
 
 group :development do
-  gem 'captain'
+  gem 'builder',   '2.1.2'
+  gem 'captain',   '0.3.0'
 end
 
 gem 'chef',        '0.7.8'

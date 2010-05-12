@@ -1,0 +1,97 @@
+--- 
+dependencies: 
+  rails: 
+    group: 
+    - :default
+    version: = 2.3.4
+  mysql: 
+    group: 
+    - :default
+    version: = 2.7
+  haml: 
+    group: 
+    - :default
+    version: = 2.2.3
+  captain: 
+    group: 
+    - :development
+    version: = 0.3.0
+  chef-deploy: 
+    group: 
+    - :default
+    version: = 0.2.3
+  chef: 
+    group: 
+    - :default
+    version: = 0.7.8
+  passenger: 
+    group: 
+    - :default
+    version: = 2.2.4
+  builder: 
+    group: 
+    - :development
+    version: = 2.1.2
+specs: 
+- rake: 
+    version: 0.8.7
+- abstract: 
+    version: 1.0.0
+- activesupport: 
+    version: 2.3.4
+- rack: 
+    version: 1.0.1
+- actionpack: 
+    version: 2.3.4
+- actionmailer: 
+    version: 2.3.4
+- activerecord: 
+    version: 2.3.4
+- activeresource: 
+    version: 2.3.4
+- builder: 
+    version: 2.1.2
+- captain: 
+    version: 0.3.0
+- erubis: 
+    version: 2.6.5
+- extlib: 
+    version: 0.9.14
+- json: 
+    version: 1.4.2
+- mixlib-cli: 
+    version: 1.2.0
+- mixlib-config: 
+    version: 1.1.0
+- mixlib-log: 
+    version: 1.1.0
+- systemu: 
+    version: 1.2.0
+- ohai: 
+    version: 0.5.4
+- ruby-openid: 
+    version: 2.1.7
+- stomp: 
+    version: 1.1.5
+- chef: 
+    version: 0.7.8
+- chef-deploy: 
+    version: 0.2.3
+- fastthread: 
+    version: 1.0.7
+- haml: 
+    version: 2.2.3
+- mysql: 
+    version: "2.7"
+- passenger: 
+    version: 2.2.4
+- rails: 
+    version: 2.3.4
+hash: 014cddc5e90cb14733e42cb51e6a325f0e056732
+sources: 
+- Rubygems: 
+    uri: http://rubygems.org/
+- Rubygems: 
+    uri: http://gems.opscode.com/
+- Rubygems: 
+    uri: http://gems.engineyard.com/

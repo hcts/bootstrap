@@ -1,70 +1,80 @@
-['matthewtodd-captain', 'matthewtodd-rubygems_commands'].each do |name|
-  begin
-    gem name
-  rescue Gem::LoadError
-    abort "Please `gem install #{name} --source http://gems.github.com`"
-  end
-end
-
 require 'captain'
-require 'erb'
 
-# =============================================================================
-# = Packages bundled in the ISO image                                         =
-# =============================================================================
-directory 'bundle/rubygems/gems'
+Captain::Rake::ISO.new(:default) do |task|
+  task.tag = 'chef-0.7.8'
 
-rule '.gem' => 'bundle/rubygems/gems' do |task|
-  # FIXME gem export should honor the version number
-  gem_name = File.basename(task.name, '.gem').split('-').slice(0..-2).join('-')
-  sh "cd bundle/rubygems/gems; gem export #{gem_name}"
-end
+  task.repositories = [
+    'http://us.archive.ubuntu.com/ubuntu jaunty main restricted universe'
+  ]
 
-file 'bundle/rubygems/latest_specs.4.8' => ['chef-0.7.8.gem', 'chef-deploy-0.2.3.gem', 'haml-2.2.3.gem', 'mysql-2.7.gem', 'passenger-2.2.4.gem', 'rails-2.3.4.gem'].map { |name| "bundle/rubygems/gems/#{name}" } do
-  sh 'gem generate_index --directory bundle/rubygems --no-legacy'
-end
+  task.tasks = %w(
+    minimal
+    standard
+    server
+    openssh-server
+    lamp-server
+    mail-server
+    samba-server
+  )
 
-file 'bundle/rubygems-1.3.5.tgz' do
-  sh 'cd bundle; curl -L -O http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz'
-end
+  task.include_packages = %w(
+    alpine
+    apache2-prefork-dev
+    fetchmail
+    git-core gitk git-svn git-email
+    libapache2-mod-auth-pam
+    libmysqlclient15-dev mysql-client
+    mailutils
+    mgetty
+    mrtg
+    postfix-mysql
+    rrdtool
+    rsnapshot
+    squid
+    vnc4server
+    xfce4-cpugraph-plugin
+    xfce4-netload-plugin
+    xfce4-systemload-plugin
+    xfce4-terminal
+    xrdp
+    xubuntu-desktop
+  )
 
-desc 'Remove ignored files'
-task :clean do
-  sh 'git clean -fdX'
-end
+  task.install_packages = %w(
+    openssh-server
+    ruby libopenssl-ruby rdoc ri irb ruby-dev build-essential
+    git-core vim
+  )
 
-# =============================================================================
-# = The ISO image itself                                                      =
-# =============================================================================
-ISO_FILENAME = File.basename(Captain::Application.new.send(:iso_image_path))
+  task.post_install_commands = [
+    'in-target sh -c /cdrom/bundle/scripts/install_rubygems',
+    'in-target sh -c /cdrom/bundle/scripts/install_chef'
+  ]
 
-file ISO_FILENAME => FileList['bundle/**/*', 'bundle/rubygems/latest_specs.4.8', 'bundle/rubygems-1.3.5.tgz', 'config/captain.rb'] do
-  sh 'captain'
-end
-
-desc 'Build image'
-task :build => ISO_FILENAME
-
-# =============================================================================
-# = VMware virtual machine to boot from the ISO image                         =
-# =============================================================================
-VMWARE_PATH   = 'vm.vmwarevm'
-VMWARE_CONFIG = File.join(VMWARE_PATH, 'vm.vmx')
-VMWARE_DISK   = File.join(VMWARE_PATH, 'vm.vmdk')
-
-directory VMWARE_PATH
-
-file VMWARE_CONFIG => [VMWARE_PATH, 'config/vm.vmx.erb'] do
-  File.open(VMWARE_CONFIG, 'w') do |config|
-    config.write(ERB.new(File.read('config/vm.vmx.erb')).result)
+  Captain::Rake::VMware.new do |vm|
+    vm.iso_image = task.iso_image_path
   end
 end
 
-file VMWARE_DISK => VMWARE_PATH do
-  sh "vmware-vdiskmanager -c -s 20GB -a lsilogic -t 0 #{VMWARE_DISK}"
+# FIXME if you look at `rake -P`, you'll see these prerequisites happen too
+# late. I need to fix captain. For now, just run `rake rubygems` before running
+# `rake default`. Sigh.
+task :default => :rubygems
+
+task :rubygems => %w(
+  bundle/rubygems-1.3.5.tgz
+  bundle/rubygems/latest_specs.4.8
+)
+
+file 'bundle/rubygems-1.3.5.tgz' do |task|
+  sh "curl --location --output #{task.name} http://rubyforge.org/frs/download.php/60718/rubygems-1.3.5.tgz"
 end
 
-desc 'Boot image in VMware'
-task :default => [:build, VMWARE_CONFIG, VMWARE_DISK] do
-  sh "open #{VMWARE_PATH}"
+file 'bundle/rubygems/latest_specs.4.8' => 'Gemfile' do
+  sh 'rm -rf bundle/rubygems'
+  sh 'mkdir bundle/rubygems'
+  sh 'bundle pack'
+  sh 'mv vendor/cache bundle/rubygems/gems'
+  sh 'rm -rf vendor'
+  sh 'gem generate_index --directory bundle/rubygems --no-legacy'
 end

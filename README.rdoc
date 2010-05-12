@@ -1,29 +1,38 @@
-= Chef Installer ISO
+= Bootstrap
 
-Builds an ISO image you can use to install Ubuntu 9.04 and set up a chef[http://wiki.opscode.com/display/chef] client.
+Builds a custom Ubuntu installation disk for Moshi, a satellite mail server.
+
+(If you'd like to do something like this yourself, see
+captain[http://github.com/matthewtodd/captain].)
 
 == Prerequisites
 
-This project uses captain[http://github.com/matthewtodd/captain], a more generic tool I wrote for building an Ubuntu installer CD with a custom set of packages.
+You'll need bundler[http://gembundler.com/]:
 
-So, you'll first need to
+ gem install bundler
 
- gem sources --add http://gems.github.com
- gem install matthewtodd-captain
+Then, use bundler to install everything else:
+
+ bundle install
+
+(If you have mysql trouble, try <tt>gem install mysql --version 2.7 --
+--with-mysql-config=`which mysql_config`</tt>.)
 
 == Usage
 
-Once you've got that, just stand in this directory and run
+Pack rubygems for the disk image: (This is necessary for now, but won't be once
+I can fix a bug in captain.)
 
- captain
+ rake rubygems
 
-Then, burn the iso onto a disk and use it to bootstrap your system.
+Build the disk image:
 
-Once your system's up and running, you can bootstrap chef like so:
+ rake
 
- mount /media/cdrom0
- SERVER=https://your-chef-server OPENID_SERVER=https://your-chef-openid-server chef-client --config /cdrom/bundle/client.rb --token YOUR_CHEF_TOKEN
+Build a VMware virtual machine to run the installer:
 
-== Customize
+ rake vmware
 
-Check out config/captain.rb if you'd like to include additional packages on the CD. Or, you may like to just start your own project that uses captain -- all you need is a config/captain.rb, and you're good to go.
+Luanch the VMware virtual machine:
+
+ open vm.vmwarevm
