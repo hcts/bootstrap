@@ -1,21 +1,14 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
-require 'tempfile'
 require 'yaml'
 
 include FileUtils
 
-Dir.mktmpdir do |temp|
-  cd temp do
-    system 'tar xzf /cdrom/bundle/rubygems-1.3.5.tgz'
-    cd('rubygems-1.3.5') { system 'ruby setup.rb' }
-  end
-end
-
+cd('/cdrom/bundle/rubygems-1.3.5') { system 'ruby setup.rb' }
 ln_sf '/usr/bin/gem1.8', '/usr/bin/gem'
-cp_r  '/cdrom/bundle/rubygems', '/srv'
 
+cp_r  '/cdrom/bundle/rubygems', '/srv'
 File.open('/etc/gemrc', 'w') do |io|
-  YAML.dump({ 'sources' => ['file://srv/rubygems'] }, io)
+  YAML.dump({ :sources => ['file:/srv/rubygems/'] }, io)
 end
